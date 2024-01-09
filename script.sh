@@ -19,11 +19,6 @@ install_docker_linux() {
     sudo usermod -a -G docker $(whoami)
     newgrp docker
     echo "Docker installed and started. ✅"
-    sleep 5
-    sudo curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)"  -o /usr/local/bin/docker-compose
-    sudo mv /usr/local/bin/docker-compose /usr/bin/docker-compose
-    sudo chmod +x /usr/bin/docker-compose
-    echo "Docker-compose installed and ready to use 🚀"
 }
 
 configure_docker(){
@@ -49,7 +44,7 @@ echo "This script allows you to perform various actions to orchestration."
 echo "Please select an option from the menu below:"
 # Menu options
 echo
-options=("Init" "Rollout" "Quit")
+options=("Init" "docker compose configure" "Rollout" "Quit")
 echo
 PS3="> "
 echo
@@ -59,10 +54,16 @@ select option in "${options[@]}"; do
            docker_status=$(docker info &> /dev/null && echo "running" || echo "not running")
            echo "Docker status: $docker_status"
             ;;
-        2)  sudo apt-get remove docker.io -y
+        2)  sleep 5
+            sudo curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)"  -o /usr/local/bin/docker-compose
+            sudo mv /usr/local/bin/docker-compose /usr/bin/docker-compose
+            sudo chmod +x /usr/bin/docker-compose
+            echo "Docker-compose installed and ready to use 🚀"
+            ;;
+        3)  sudo apt-get remove docker.io -y
             sudo apt autoremove -y
             ;;
-        3)
+        4)
             echo "Quitting..."
             break
             ;;
