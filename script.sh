@@ -18,7 +18,11 @@ install_docker_linux() {
     docker --version
     sudo usermod -a -G docker $(whoami)
     newgrp docker
-    echo "Docker installed and started."
+    echo "Docker installed and started. ✅"
+    sudo curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)"  -o /usr/local/bin/docker-compose
+    sudo mv /usr/local/bin/docker-compose /usr/bin/docker-compose
+    sudo chmod +x /usr/bin/docker-compose
+    echo "Docker-compose installed and ready to use 🚀"
 }
 
 configure_docker(){
