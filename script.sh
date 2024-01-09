@@ -15,10 +15,15 @@ install_docker_linux() {
     sudo systemctl start docker
     sudo docker run hello-world
     sudo systemctl enable docker
-    docker --version
     sudo usermod -a -G docker $(whoami)
     newgrp docker
     echo "Docker installed and started. ✅"
+}
+configure_docker_compose(){
+    sudo curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)"  -o /usr/local/bin/docker-compose
+    sudo mv /usr/local/bin/docker-compose /usr/bin/docker-compose
+    sudo chmod +x /usr/bin/docker-compose
+    echo "Docker-compose installed and ready to use 🚀"
 }
 
 configure_docker(){
@@ -54,11 +59,7 @@ select option in "${options[@]}"; do
            docker_status=$(docker info &> /dev/null && echo "running" || echo "not running")
            echo "Docker status: $docker_status"
             ;;
-        2)  sleep 5
-            sudo curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)"  -o /usr/local/bin/docker-compose
-            sudo mv /usr/local/bin/docker-compose /usr/bin/docker-compose
-            sudo chmod +x /usr/bin/docker-compose
-            echo "Docker-compose installed and ready to use 🚀"
+        2)  configure_docker_compose
             ;;
         3)  sudo apt-get remove docker.io -y
             sudo apt autoremove -y
