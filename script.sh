@@ -1,7 +1,8 @@
 #!/bin/bash
 
 install_docker_macos() {
-    echo "Installing Docker Desktop for macOS..."
+    echo "Installing Docker Desktop on macOS..."
+    brew install --cask docker
     # Add additional steps if needed for macOS Docker Desktop installation
     # For example, you might want to open a webpage for the user to download Docker Desktop
     # Or use a package manager if Docker Desktop is available through one
@@ -50,6 +51,7 @@ select option in "${options[@]}"; do
            echo "Docker status: $docker_status"
             ;;
         2)  sudo apt-get remove docker.io -y
+            sudo apt autoremove -y
             ;;
         3)
             echo "Quitting..."
