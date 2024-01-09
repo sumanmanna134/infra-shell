@@ -11,16 +11,13 @@ install_docker_macos() {
 install_docker_linux() {
     echo "Installing Docker on Linux..."
     sudo apt-get update
-    # Add Docker GPG key
-    sudo apt-key adv --fetch-keys https://download.docker.com/linux/ubuntu/gpg
-    # Add Docker repository
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-    # Update package index
-    sudo apt-get update
-    # Install Docker
-    sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+    sudo apt-get install docker.io -y
     sudo systemctl start docker
+    sudo docker run hello-world
     sudo systemctl enable docker
+    docker --version
+    sudo usermod -a -G docker $(whoami)
+    newgrp docker
     echo "Docker installed and started."
 }
 
